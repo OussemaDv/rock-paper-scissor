@@ -41,22 +41,43 @@ function game(){
     let playerSelection,computerSelection;
     let winner;
 
-    for(let i=0;i<5;i++){
-    playerSelection = (prompt("Rock, paper, scissor ? ")).toLowerCase();
-    computerSelection = getComputerChoice(); 
-    winner = playRound(playerSelection,computerSelection);
-    if(winner === "player"){
-        playerScore++;
-    }
-    else if(winner === "computer"){
-        computerScore++;
-    }
-    console.log(`Player: ${playerScore} || Computer: ${computerScore}`);
-    }
+    const btns = document.querySelectorAll("button");
+
+    btns.forEach(btn => btn.addEventListener('click', () => {
+        playerSelection = (btn.textContent).toLowerCase();
+
+        computerSelection = getComputerChoice(); 
+        winner = playRound(playerSelection,computerSelection);
+        if(winner === "player"){
+            playerScore++;
+        }
+        else if(winner === "computer"){
+            computerScore++;
+        }
+        const body = document.querySelector('body');
+        const div = document.createElement('div');
+        div.textContent = `Player: ${playerScore} || Computer: ${computerScore}`;
+        
+        if(playerScore === 5){
+            div.textContent = "Game over: You won!";
+            playerScore = 0;
+            computerScore = 0;
+            //btns.forEach(btn => btn.removeEventListener());
+        }
+        else if(computerScore === 5){
+            div.textContent = "Game over: You lose! Try again.";
+            playerScore = 0;
+            computerScore = 0;  
+            //btns.forEach(btn => btn.removeEventListener('click'));  
+        }
+        document.body.appendChild(div);
+    }))
+    
+
     
 
 
-    if(playerScore>computerScore){
+   /* if(playerScore>computerScore){
         console.log("You win!");
     }
     else if(playerScore<computerScore){
@@ -64,7 +85,10 @@ function game(){
     }
     else{
         console.log("Tie!");
-    }
+    }*/
 }
 
 game();
+
+
+
